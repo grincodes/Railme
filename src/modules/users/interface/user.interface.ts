@@ -6,4 +6,5 @@ export interface User extends Document {
   readonly email: string;
   readonly phoneNumber: string;
   readonly password: string;
+  readonly currentHashedRefreshToken: string;
 }

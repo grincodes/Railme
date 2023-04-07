@@ -15,6 +15,8 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+    console.log('token', token);
+
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -22,6 +24,8 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
+
+      console.log('payload', payload);
 
       request['user'] = payload;
     } catch {
@@ -32,6 +36,8 @@ export class AuthGuard implements CanActivate {
 
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    console.log(type);
+
     return type === 'Bearer' ? token : undefined;
   }
 }
