@@ -47,6 +47,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   app.use(passport.initialize());
+
   await app.listen(3000);
 }
 bootstrap();
