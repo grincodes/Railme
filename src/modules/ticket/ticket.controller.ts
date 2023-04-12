@@ -24,6 +24,21 @@ export class TicketController {
     }
   }
 
+  @Get('/')
+  async getAll() {
+    return await this.ticketService.getAll();
+  }
+
+  @Get(`:id`)
+  async getById(@Param('id') id: string) {
+    try {
+      const data = await this.ticketService.getById(id);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
   @Put(':id')
   async edit(@Param('id') id: string, @Body() body: CreateTicketDto) {
     try {
@@ -38,16 +53,6 @@ export class TicketController {
   async delete(@Param('id') id: string) {
     try {
       return await this.ticketService.delete(id);
-    } catch (error) {
-      return error;
-    }
-  }
-
-  @Get(`:id`)
-  async getById(@Param('id') id: string) {
-    try {
-      const data = await this.ticketService.getById(id);
-      return data;
     } catch (error) {
       return error;
     }

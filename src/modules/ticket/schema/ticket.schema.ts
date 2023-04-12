@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { TrainServiceEnum } from '../dto/ticket.request.dto';
 
 export const TicketSchema = new mongoose.Schema({
   id: String,
@@ -13,4 +14,9 @@ export const TicketSchema = new mongoose.Schema({
   seatNumber: String,
   price: String,
   bookingStatus: String,
+  trainServiceType: {
+    type: String,
+    enum: Object.values(TrainServiceEnum),
+    default: TrainServiceEnum.Reservation,
+  },
 });

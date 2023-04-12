@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import { TrainServiceEnum } from '../dto/ticket.request.dto';
 
 export interface Ticket extends Document {
   readonly trainName: string;
@@ -12,4 +13,5 @@ export interface Ticket extends Document {
   readonly lastName: string;
   readonly price: string;
   readonly bookingStatus: string;
+  readonly trainServiceType: TrainServiceEnum;
 }

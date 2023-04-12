@@ -16,6 +16,10 @@ export class TicketService {
     });
   }
 
+  async getAll() {
+    return await this.ticketRepo.find({});
+  }
+
   async getById(id: string) {
     const userTicket = await this.ticketRepo.findOne({ id });
     if (userTicket) {
@@ -26,17 +30,6 @@ export class TicketService {
       HttpStatus.NOT_FOUND,
     );
   }
-
-  //   async getByTicketReferenceNumber(ticketReferenceNumber: string) {
-  //     const userTicket = await this.ticketRepo.findOne({ ticketReferenceNumber });
-  //     if (userTicket) {
-  //       return userTicket;
-  //     }
-  //     throw new HttpException(
-  //       'Ticket with this id does not exist',
-  //       HttpStatus.NOT_FOUND,
-  //     );
-  //   }
 
   async edit(id: string, editTicketDto: CreateTicketDto): Promise<Ticket> {
     const edit = await this.ticketRepo.findOneAndUpdate(
@@ -49,4 +42,15 @@ export class TicketService {
   async delete(id: string): Promise<void> {
     await this.ticketRepo.deleteMany({ id });
   }
+
+  //   async getByTicketReferenceNumber(ticketReferenceNumber: string) {
+  //     const userTicket = await this.ticketRepo.findOne({ ticketReferenceNumber });
+  //     if (userTicket) {
+  //       return userTicket;
+  //     }
+  //     throw new HttpException(
+  //       'Ticket with this id does not exist',
+  //       HttpStatus.NOT_FOUND,
+  //     );
+  //   }
 }
