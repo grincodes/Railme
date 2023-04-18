@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { CreateUserDto } from './dto/auth.request.dto';
+import { CreateAdminDto, CreateUserDto } from './dto/auth.request.dto';
 import { UsersService } from '../users/users.service';
 import { SiginDto } from './dto/sign-in.dto';
 import { LocalAuthGuard } from './local/local-auth.guard';
@@ -19,6 +19,9 @@ import JwtRefreshGuard from './jwt/jwt-refresh.guard';
 import RequestWithUser from './requestWithUser.interface';
 import JwtAuthenticationGuard from './jwt-authentication.guard';
 import { JwtCookieService } from '../jwt-cookie-access-token/jwt-cookie.service';
+import { USER_TYPE } from 'src/core/constants/values';
+import { Roles } from '../authorization/roles.decorator';
+import { RoleGuard } from '../authorization/roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -47,7 +50,7 @@ export class AuthController {
     return user;
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(JwtRefreshGuard)
   @Get('profile')
   getProfile(@Req() req) {
     return req.user;
@@ -64,13 +67,26 @@ export class AuthController {
     }
   }
 
+  @Post('/create-admin')
+  async createAdmin(@Body() body: CreateAdminDto) {
+    try {
+      const data = await this.usersService.create(body);
+      console.log('data>>>>>', data);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Roles(USER_TYPE.USER)
+  @UseGuards(RoleGuard)
   @Get('/users')
   async getUsers() {
     const data = await this.usersService.findAll();
     return data;
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(JwtRefreshGuard)
   @Post('log-out')
   @HttpCode(200)
   async logOut(@Req() request: RequestWithUser) {
@@ -81,7 +97,7 @@ export class AuthController {
     );
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(JwtRefreshGuard)
   @Get()
   authenticate(@Req() request: RequestWithUser) {
     return request.user;

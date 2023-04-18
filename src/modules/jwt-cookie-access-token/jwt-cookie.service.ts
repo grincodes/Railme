@@ -7,7 +7,7 @@ import TokenPayload from '../auth/tokenPayload.interface';
 @Injectable()
 export class JwtCookieService {
   constructor(
-    private readonly jwtService: JwtService,
+    private jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
 

@@ -13,7 +13,7 @@ export abstract class EntityRepository<T extends Document> {
         __v: 0,
         ...projection,
       })
-      .exec();
+      .lean();
   }
 
   async find(entityFilterQuery: FilterQuery<T>): Promise<T[] | null> {

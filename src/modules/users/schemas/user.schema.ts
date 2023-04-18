@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { USER_TYPE } from 'src/core/constants/values';
 
 export const UserSchema = new mongoose.Schema({
   id: String,
@@ -8,4 +9,5 @@ export const UserSchema = new mongoose.Schema({
   phoneNumber: String,
   password: String,
   currentHashedRefreshToken: String,
+  role: { type: String, enum: USER_TYPE, default: USER_TYPE.USER },
 });
