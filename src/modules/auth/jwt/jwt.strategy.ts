@@ -14,12 +14,22 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           return request?.cookies?.Authentication;
         },
       ]),
-      ignoreExpiration: false,
       secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET'),
     });
   }
 
   async validate(payload: any) {
-    return { id: payload.sub, email: payload.email };
+    console.log('payan', payload);
+
+    return {
+      userId: payload.id,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      email: payload.email,
+      phoneNumber: payload.phoneNumber,
+      role: payload.role,
+      // isVerified: payload.isVerified,
+      // userType: payload.userType,
+    };
   }
 }

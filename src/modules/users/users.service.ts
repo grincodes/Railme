@@ -52,6 +52,7 @@ export class UsersService {
   async getById(id: string) {
     const user = await this.userRepo.findOne({ id });
     if (user) {
+      delete user.password;
       return user;
     }
     throw new HttpException(
