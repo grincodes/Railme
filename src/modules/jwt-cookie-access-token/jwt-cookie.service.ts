@@ -19,7 +19,7 @@ export class JwtCookieService {
         'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
       )}s`,
     });
-    return `Authentication=${token}; HttpOnly; Max-Age=${this.configService.get(
+    return `Authentication=${token};  Path=/; HttpOnly; Max-Age=${this.configService.get(
       'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
     )}`;
   }
@@ -32,7 +32,7 @@ export class JwtCookieService {
         'JWT_REFRESH_TOKEN_EXPIRATION_TIME',
       )}s`,
     });
-    const cookie = `Refresh=${token}; HttpOnly; Max-Age=${this.configService.get(
+    const cookie = `Refresh=${token}; HttpOnly;Path=/; Max-Age=${this.configService.get(
       'JWT_REFRESH_TOKEN_EXPIRATION_TIME',
     )}`;
     return {
@@ -43,7 +43,7 @@ export class JwtCookieService {
 
   public getCookiesForLogOut() {
     return [
-      'Authentication=; HttpOnly; Max-Age=0',
+      'Authentication=;  Path=/; HttpOnly; Max-Age=0',
       'Refresh=; HttpOnly; Max-Age=0',
     ];
   }

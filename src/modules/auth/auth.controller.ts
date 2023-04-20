@@ -22,7 +22,9 @@ import { JwtCookieService } from '../jwt-cookie-access-token/jwt-cookie.service'
 import { USER_TYPE } from 'src/core/constants/values';
 import { Roles } from '../authorization/roles.decorator';
 import { RoleGuard } from '../authorization/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -78,8 +80,6 @@ export class AuthController {
     }
   }
 
-  @Roles(USER_TYPE.USER)
-  @UseGuards(RoleGuard)
   @Get('/users')
   async getUsers() {
     const data = await this.usersService.findAll();

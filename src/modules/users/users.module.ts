@@ -5,9 +5,10 @@ import { AuthController } from '../auth/auth.controller';
 import { usersProviders } from './users.providers';
 import { AuthService } from '../auth/auth.service';
 import { UserRepo } from './users.repo';
+import { JwtCookieModule } from '../jwt-cookie-access-token/jwt-cookie.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, JwtCookieModule],
   controllers: [],
   providers: [UsersService, ...usersProviders, UserRepo],
   exports: [UsersService],

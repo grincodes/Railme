@@ -8,3 +8,17 @@ export enum USER_TYPE {
   'ADMIN' = 'admin',
   'SUPER_ADMIN' = 'super-admin',
 }
+
+export enum TICKET_CLASS {
+  'FIRST_CLASS' = 'first_class',
+  'SECOND_CLASS' = 'second_class',
+  'ECONOMY' = 'economy',
+  'STANDARD' = 'standard',
+}
+
+export enum TICKET_CLASS_REF {
+  'first_class' = 'FC',
+  'second_class' = 'SC',
+  'economy' = 'ECO',
+  'standard' = 'STD',
+}
