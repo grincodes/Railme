@@ -6,6 +6,17 @@ content-type: application/json
     "password": "1234567899900"
 }
 
+{
+    "email": "ola@gmail.com",
+    "password": "ola123ola123"
+}
+
+
+{
+    "email": "ad@gmail.com",
+    "password": "admin123admin123"
+}
+
 
 ###
 
