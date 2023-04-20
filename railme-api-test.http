@@ -6,6 +6,17 @@ content-type: application/json
     "password": "1234567899900"
 }
 
+{
+    "email": "ola@gmail.com",
+    "password": "ola123ola123"
+}
+
+
+{
+    "email": "ad@gmail.com",
+    "password": "admin123admin123"
+}
+
 
 ###
 
@@ -23,6 +34,63 @@ content-type: application/json
 ###
 
 GET http://localhost:3000/auth/profile HTTP/1.1
+
+
+
+
+###
+
+POST  http://localhost:3000/ticket/create HTTP/1.1
+content-type: application/json
+
+{
+  "firstName": "firstName",
+  "lastName": "LastName",
+  "trainName": "EuroStar",
+  "trainNumber": "3924",
+  "depatureStation": "Abeokuta",
+  "arrivalStation": "Kano",
+  "ticketReferenceNumber": "T4-04592963154",
+  "seatNumber": "A18",
+  "price": "# 7,500.00",
+  "bookingStatus": "Success",
+  "trainServiceType": "Business"
+}
+
+
+###
+
+GET http://localhost:3000/ticket/ HTTP/1.1
+
+
+###
+
+GET http://localhost:3000/ticket/:id HTTP/1.1
+
+
+###
+
+DELETE http://localhost:3000/ticket/:id HTTP/1.1
+
+
+###
+
+PUT http://localhost:3000/ticket/:id HTTP/1.1
+
+{
+  "firstName": "firstName",
+  "lastName": "LastName",
+  "trainName": "EuroStar",
+  "trainNumber": "3924",
+  "depatureStation": "Abeokuta",
+  "arrivalStation": "Kano",
+  "ticketReferenceNumber": "T4-04592963154",
+  "seatNumber": "A18",
+  "price": "# 7,500.00",
+  "bookingStatus": "Success",
+  "trainServiceType": "Business"
+}
+
 
 
 ###
