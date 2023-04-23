@@ -3,10 +3,14 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  UseGuards,
 } from '@nestjs/common';
 import { BookingRepo } from './booking.repo';
-import { BookingDto } from './dto/booking.dto';
+import { BookingDto, BookingReferenceDto } from './dto/booking.dto';
 import { TicketService } from '../ticket/ticket.service';
+import { TicketReferenceDto } from '../ticket/dto/ticket.dto';
+import JwtRefreshGuard from '../auth/jwt/jwt-refresh.guard';
+import { RoleGuard } from '../authorization/roles.guard';
 
 @Injectable()
 export class BookingService {
@@ -16,22 +20,35 @@ export class BookingService {
   ) {}
 
   async createBooking(bookingDto: BookingDto) {
-    const ticket = await this.ticketService.findByReference(
-      bookingDto.ticketReference,
-    );
+    const ticket = await this.ticketService.findByReference(bookingDto);
 
     if (!ticket) {
-      throw new HttpException('Ticket does not exist ', HttpStatus.NOT_FOUND);
+      throw new HttpException('Ticket does not exist', HttpStatus.NOT_FOUND);
     }
 
     // check if ticket has expired
+    const dateOnTicket: Date = new Date(ticket.departureTime);
+    const dateInputed: Date = new Date(bookingDto.departureTime);
 
-    // check if ticket is totall booked
+    if (
+      dateOnTicket.getTime() < dateInputed.getTime() ||
+      dateOnTicket.getTime() > dateInputed.getTime()
+    ) {
+      throw new HttpException(
+        'No ticket is avaialble for this date',
+        HttpStatus.FORBIDDEN,
+      );
+    }
 
+    // check if ticket is totally booked
     if (ticket.numOfAvailableTickets < bookingDto.ticketQuantity) {
       throw new BadRequestException(
-        'Tickets fully booked or ticket available does not match your request',
+        'Tickets available does not match your request',
       );
+    }
+
+    if (ticket.numOfAvailableTickets === 0) {
+      throw new BadRequestException('Tickets fully booked');
     }
 
     //implement a transaction here
@@ -45,7 +62,20 @@ export class BookingService {
       bookingDto.ticketQuantity,
       bookingDto.ticketReference,
     );
+    console.log(bookingDto.bookingReference, 'booking ref here');
+
     return await this.bookingRepo.create(bookingDto);
+  }
+
+  async findAllBookings() {
+    return this.bookingRepo.findAll();
+  }
+
+  async findBookingByReference(bookingReferenceDto: BookingReferenceDto) {
+    console.log('bkr', bookingReferenceDto.bookingReference);
+    return await this.bookingRepo.findBookingByReference(
+      bookingReferenceDto.bookingReference,
+    );
   }
 
   generateBookingReference(ticketQuantity: number, ticketReference: string) {

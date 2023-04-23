@@ -12,4 +12,13 @@ export class BookingRepo extends EntityRepository<BookingDocument> {
   ) {
     super(bookingModel);
   }
+
+  async findAll() {
+    return await this.bookingModel.find();
+  }
+
+  async findBookingByReference(bookingReference: string) {
+    console.log('here', bookingReference);
+    return await this.bookingModel.findOne({ bookingReference });
+  }
 }

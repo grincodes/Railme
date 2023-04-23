@@ -40,11 +40,11 @@ export class TicketDto {
 
   @ApiProperty()
   @IsDateString()
-  departureTime: Date;
+  departureTime: string;
 
   @ApiProperty()
   @IsDateString()
-  arrivalTime: Date;
+  arrivalTime: string;
 }
 
 export class TicketClassDto {
@@ -55,4 +55,20 @@ export class TicketClassDto {
 }
 function IsDecimalOptions(arg0: { decimal_digits: number }) {
   throw new Error('Function not implemented.');
+}
+
+export class TicketReferenceDto {
+  @IsString()
+  ticketReference: string;
+}
+
+export class TicketDateDto {
+  @ApiProperty()
+  @IsDateString()
+  departureTime: string;
+
+  @ApiProperty()
+  @IsDateString()
+  @IsOptional()
+  arrivalTime: string;
 }

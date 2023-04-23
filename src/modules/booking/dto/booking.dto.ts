@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
-  IsNumberString,
   IsOptional,
   IsInt,
   Min,
+  IsDateString,
 } from 'class-validator';
 
 export class BookingDto {
@@ -26,4 +26,13 @@ export class BookingDto {
   @IsInt()
   @Min(1)
   ticketQuantity: number;
+
+  @ApiProperty()
+  @IsDateString()
+  departureTime: Date;
+}
+
+export class BookingReferenceDto {
+  @IsString()
+  bookingReference: string;
 }

@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityRepository } from 'src/database/entity.repository';
 import { Ticket, TicketDocument } from './schemas/ticket.schema';
+import { TicketDateDto } from './dto/ticket.dto';
 
 @Injectable()
 export class TicketRepo extends EntityRepository<TicketDocument> {
@@ -17,13 +18,21 @@ export class TicketRepo extends EntityRepository<TicketDocument> {
     return await this.ticketModel.findOne({ ticketReference });
   }
 
+  async findTicketsBasedOnDate(departureTime: string) {
+    return await this.ticketModel.findOne({ departureTime });
+  }
+
   async findByReferenceAndUpdate(
     ticketReference: string,
     ticketQuantity: number,
   ) {
-    return await this.ticketModel.findOneAndUpdate(
-      { ticketReference },
-      { $inc: { numOfAvailableTickets: -ticketQuantity } },
-    );
+    try {
+      return await this.ticketModel.findOneAndUpdate(
+        { ticketReference },
+        { $inc: { numOfAvailableTickets: -ticketQuantity } },
+      );
+    } catch (error) {
+      return 'Error here';
+    }
   }
 }
