@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import JwtRefreshGuard from '../auth/jwt/jwt-refresh.guard';
 import { BookingDto, BookingReferenceDto } from './dto/booking.dto';
 import { BookingService } from './booking.service';
@@ -25,9 +35,18 @@ export class BookingController {
   }
 
   @Get('by-reference')
-  findBookingByReference(bookingReferenceDto: BookingReferenceDto) {
+  findBookingByReference(@Body() bookingReferenceDto: BookingReferenceDto) {
     return this.bookingService.findBookingByReference(bookingReferenceDto);
   }
 
+  @Delete(':bookingReference')
+  deleteBookingByReference(
+    @Param('bookingReference') bookingReference: BookingReferenceDto,
+  ) {
+    return this.bookingService.deleteBookingByReference(bookingReference);
+  }
+
   //update
+  // @Put(':bookingReference')
+  // editBooking(@Param('bookingReference') bookingReference: string) {}
 }

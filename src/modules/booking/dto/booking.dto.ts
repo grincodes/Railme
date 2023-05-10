@@ -9,13 +9,15 @@ import {
 } from 'class-validator';
 
 export class BookingDto {
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  bookingReference: string;
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   ticketReference: string;
-
-  @IsOptional()
-  bookingReference: string;
 
   @ApiProperty()
   @IsString()

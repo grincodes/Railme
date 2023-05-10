@@ -62,9 +62,11 @@ export class BookingService {
       bookingDto.ticketQuantity,
       bookingDto.ticketReference,
     );
-    console.log(bookingDto.bookingReference, 'booking ref here');
 
-    return await this.bookingRepo.create(bookingDto);
+    const result = await this.bookingRepo.create(bookingDto);
+    console.log(result, 'result');
+    console.log(bookingDto, 'dto');
+    return result;
   }
 
   async findAllBookings() {
@@ -72,10 +74,13 @@ export class BookingService {
   }
 
   async findBookingByReference(bookingReferenceDto: BookingReferenceDto) {
-    console.log('bkr', bookingReferenceDto.bookingReference);
     return await this.bookingRepo.findBookingByReference(
       bookingReferenceDto.bookingReference,
     );
+  }
+
+  async deleteBookingByReference(bookingReferenceDto: BookingReferenceDto) {
+    return await this.bookingRepo.deleteMany(bookingReferenceDto);
   }
 
   generateBookingReference(ticketQuantity: number, ticketReference: string) {

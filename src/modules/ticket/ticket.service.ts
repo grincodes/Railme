@@ -5,6 +5,7 @@ import {
   TicketDateDto,
   TicketDto,
   TicketReferenceDto,
+  TrainNameDto,
 } from './dto/ticket.dto';
 import { TicketRepo } from './ticket.repo';
 import { TICKET_CLASS } from 'src/core/constants/values';
@@ -32,6 +33,8 @@ export class TicketService {
   }
 
   async findByReference(ticketReferenceDto: TicketReferenceDto) {
+    console.log('ref', ticketReferenceDto.ticketReference);
+
     return await this.ticketRepo.findByReference(
       ticketReferenceDto.ticketReference,
     );

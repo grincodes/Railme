@@ -62,6 +62,13 @@ export class TicketReferenceDto {
   ticketReference: string;
 }
 
+export class TrainNameDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  trainName: string;
+}
+
 export class TicketDateDto {
   @ApiProperty()
   @IsDateString()

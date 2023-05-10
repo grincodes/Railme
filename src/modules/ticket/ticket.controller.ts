@@ -18,6 +18,7 @@ import {
   TicketDateDto,
   TicketDto,
   TicketReferenceDto,
+  TrainNameDto,
 } from './dto/ticket.dto';
 import { TicketService } from './ticket.service';
 import JwtAuthenticationGuard from '../auth/jwt-authentication.guard';
@@ -35,11 +36,15 @@ export class TicketController {
     return this.ticketService.createTicket(ticketDto);
   }
 
+  @Roles(USER_TYPE.ADMIN)
+  @UseGuards(JwtRefreshGuard, RoleGuard)
   @Get()
   findAllTickets() {
     return this.ticketService.findAllTickets();
   }
 
+  @Roles(USER_TYPE.ADMIN)
+  @UseGuards(JwtRefreshGuard, RoleGuard)
   @Get('by-class')
   findAllTicketsByClass(@Body() ticketClassDto: TicketClassDto) {
     return this.ticketService.findAllTicketsByClass(ticketClassDto);
