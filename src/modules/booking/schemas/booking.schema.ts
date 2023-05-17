@@ -12,7 +12,7 @@ export class Booking {
   userId: string;
 
   @Prop()
-  bookingRef: string;
+  bookingReference: string;
 
   @Prop()
   ticketReference: string;

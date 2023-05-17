@@ -14,7 +14,7 @@ import { BookingDto, BookingReferenceDto } from './dto/booking.dto';
 import { BookingService } from './booking.service';
 import { ApiTags } from '@nestjs/swagger';
 import { RoleGuard } from '../authorization/roles.guard';
-import { ROLE_KEY } from '../authorization/roles.decorator';
+import { ROLE_KEY, Roles } from '../authorization/roles.decorator';
 import { RouterModule } from '@nestjs/core';
 import { USER_TYPE } from 'src/core/constants/values';
 
@@ -29,11 +29,16 @@ export class BookingController {
     return this.bookingService.createBooking(bookingDto);
   }
 
+  @Roles(USER_TYPE.ADMIN)
+  @UseGuards(JwtRefreshGuard, RoleGuard)
   @Get()
   findAlBookings() {
     return this.bookingService.findAllBookings();
   }
 
+  // @Roles(USER_TYPE.USER)
+  @Roles(USER_TYPE.ADMIN)
+  @UseGuards(JwtRefreshGuard, RoleGuard)
   @Get('by-reference')
   findBookingByReference(@Body() bookingReferenceDto: BookingReferenceDto) {
     return this.bookingService.findBookingByReference(bookingReferenceDto);
@@ -41,9 +46,10 @@ export class BookingController {
 
   @Delete(':bookingReference')
   deleteBookingByReference(
-    @Param('bookingReference') bookingReference: BookingReferenceDto,
+    @Param('bookingReference') bookingReference: string,
   ) {
-    return this.bookingService.deleteBookingByReference(bookingReference);
+    const data = this.bookingService.deleteBookingByReference(bookingReference);
+    return { data, message: 'Booking deleted' };
   }
 
   //update

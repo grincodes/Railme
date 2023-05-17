@@ -18,9 +18,11 @@ export class BookingRepo extends EntityRepository<BookingDocument> {
     return await this.bookingModel.find();
   }
 
-  // FC-1682271951077-Q-2
   async findBookingByReference(bookingReference: string) {
-    console.log('bookingref', bookingReference);
     return await this.bookingModel.findOne({ bookingReference });
+  }
+
+  async findByReferenceAndDelete(bookingReference: string) {
+    return await this.bookingModel.findOneAndDelete({ bookingReference });
   }
 }

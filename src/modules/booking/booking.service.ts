@@ -19,6 +19,10 @@ export class BookingService {
     private ticketService: TicketService,
   ) {}
 
+  generateBookingReference(ticketQuantity: number, ticketReference: string) {
+    return ticketReference + '-' + 'Q' + '-' + ticketQuantity;
+  }
+
   async createBooking(bookingDto: BookingDto) {
     const ticket = await this.ticketService.findByReference(bookingDto);
 
@@ -63,10 +67,7 @@ export class BookingService {
       bookingDto.ticketReference,
     );
 
-    const result = await this.bookingRepo.create(bookingDto);
-    console.log(result, 'result');
-    console.log(bookingDto, 'dto');
-    return result;
+    return await this.bookingRepo.create(bookingDto);
   }
 
   async findAllBookings() {
@@ -79,11 +80,7 @@ export class BookingService {
     );
   }
 
-  async deleteBookingByReference(bookingReferenceDto: BookingReferenceDto) {
-    return await this.bookingRepo.deleteMany(bookingReferenceDto);
-  }
-
-  generateBookingReference(ticketQuantity: number, ticketReference: string) {
-    return ticketReference + '-' + 'Q' + '-' + ticketQuantity;
+  async deleteBookingByReference(bookingReference: string) {
+    return await this.bookingRepo.findByReferenceAndDelete(bookingReference);
   }
 }

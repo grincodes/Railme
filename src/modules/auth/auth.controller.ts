@@ -23,6 +23,7 @@ import { USER_TYPE } from 'src/core/constants/values';
 import { Roles } from '../authorization/roles.decorator';
 import { RoleGuard } from '../authorization/roles.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -52,7 +53,7 @@ export class AuthController {
     return user;
   }
 
-  @UseGuards(JwtRefreshGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Req() req) {
     return req.user;
